@@ -1,15 +1,51 @@
-import React from 'react'
-import { Button, Checkbox, Form, Input } from "antd";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button, Checkbox, Form, Input, Spin } from "antd";
+import { gql, useMutation } from "@apollo/client";
 
 // const onFinishFailed = (errorInfo) => {
 //   console.log("Failed:", errorInfo);
 // };
 
-export default function Login() {
+export default function Login(props) {
+  const navigate = useNavigate();
+  const [form] = Form.useForm();
 
-  const onFinish =  (values) => {
-      console.log("Sign in Failed");
+  const USER_DATA = gql`
+    mutation Mutation($email: String!, $password: String!) {
+      SignIn(email: $email, password: $password) {
+        validTill
+        accessToken
+      }
+    }
+  `;
+
+  const [signIn, { loading, error, data }] = useMutation(USER_DATA, {
+    update(proxy, result) {
+      console.log(result);
+      const token = result?.data?.SignIn?.accessToken;
+      console.log(token);
+      localStorage.setItem("token", token);
+      localStorage.setItem("validTill", result?.data?.SignIn?.validTill.toString());
+      navigate("/dashboard");
+    },
+  });
+
+  const onFinish = async (values) => {
+    try {
+      await signIn({
+        variables: values,
+      });
+    } catch (error) {
+      console.log("Sign in Failed", error);
+    }
   };
+
+  //   useEffect(() => {
+  //     if (data) {
+  //       navigate("/dashboard");
+  //     }
+  //   }, [data]);
 
   return (
     <Form
@@ -48,7 +84,8 @@ export default function Login() {
       </Form.Item>
 
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" disabled={loading}>
+          {loading ? <Spin /> : ""}
           Login
         </Button>
       </Form.Item>

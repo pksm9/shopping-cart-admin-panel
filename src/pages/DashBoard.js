@@ -7,6 +7,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { Image, Layout, Menu, theme } from 'antd';
+import ProductTable from '../components/ProductTable';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -28,8 +29,8 @@ const App = () => {
   const {token: { colorBgContainer, borderRadiusLG },} = theme.useToken();
   
   return (
-    <Layout style={{height: '100vh',}}>
-      <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+    <Layout style={{height: '100vh',overflow: 'hidden'}}>
+      <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} width='260'>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <Image src="/logo192.png" width="80%" preview={false} style={{ margin: '20px 0', objectFit: 'scale-down' }} /></div>
         <div className="demo-logo-vertical" />
@@ -39,7 +40,7 @@ const App = () => {
         <Header style={{padding: 0, background: colorBgContainer, }} />
         <Content style={{ margin: '24px 16px 0', }} >
           <div style={{padding: 24, height: '100vh', background: colorBgContainer, borderRadius: borderRadiusLG,}}>
-            Bill is a cat.
+            <ProductTable />
           </div>
         </Content>
         <Footer></Footer>

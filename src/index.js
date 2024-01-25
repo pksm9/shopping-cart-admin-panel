@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from } from "@apollo/client";
 import {onError} from "@apollo/client/link/error"
+// import client from "./context/auth";
 
 const errorLink = onError(({graphqlErrors, networkErrors}) => {
   if(graphqlErrors) {

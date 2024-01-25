@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthDispatch } from '../context/AuthContext';
 import { Button, Checkbox, Form, Input, Spin } from "antd";
 import { gql, useMutation } from "@apollo/client";
+import {USER_DATA} from '../graphql/Mutations'
 
 // const onFinishFailed = (errorInfo) => {
 //   console.log("Failed:", errorInfo);
@@ -10,15 +12,7 @@ import { gql, useMutation } from "@apollo/client";
 export default function Login(props) {
   const navigate = useNavigate();
   const [form] = Form.useForm();
-
-  const USER_DATA = gql`
-    mutation Mutation($email: String!, $password: String!) {
-      SignIn(email: $email, password: $password) {
-        validTill
-        accessToken
-      }
-    }
-  `;
+  const authDispatch = useAuthDispatch();
 
   const [signIn, { loading, error, data }] = useMutation(USER_DATA, {
     update(proxy, result) {
@@ -28,6 +22,7 @@ export default function Login(props) {
       localStorage.setItem("token", token);
       localStorage.setItem("validTill", result?.data?.SignIn?.validTill.toString());
       navigate("/dashboard");
+      authDispatch({ type: 'LOGIN' });
     },
   });
 

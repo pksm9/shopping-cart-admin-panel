@@ -24,7 +24,7 @@ const items = [
   getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
 ];
 
-const App = () => {
+const DashBoard = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {token: { colorBgContainer, borderRadiusLG },} = theme.useToken();
   
@@ -48,4 +48,4 @@ const App = () => {
     </Layout>
   );
 };
-export default App;
+export default DashBoard;

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer, useEffect  } from 'react';
 
 const AuthStateContext = createContext();
 const AuthDispatchContext = createContext();
@@ -11,15 +11,42 @@ const authReducer = (state, action) => {
   switch (action.type) {
     case 'LOGIN':
       return { ...state, isAuthenticated: true };
-    case 'LOGOUT':
-      return { ...state, isAuthenticated: false };
+      case 'CHECK_TOKEN':
+        const isAuthenticated = !!localStorage.getItem('token') && !isTokenExpired();
+        if (isAuthenticated) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('validTill');
+        }          
+        return { ...state, isAuthenticated };
     default:
       return state;
   }
 };
 
+const isTokenExpired = () => {
+    const token = localStorage.getItem('token');
+  
+    if (!token) {
+      return true;
+    }
+  
+    try {
+      
+      const validTill = sessionStorage.getItem("validTill"); 
+  
+      return parseInt(validTill) < Date.now();
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return true;
+    }
+  };
+
 const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
+
+  useEffect(() => {
+    dispatch({ type: 'CHECK_TOKEN' });
+  }, []);
 
   return (
     <AuthStateContext.Provider value={state}>

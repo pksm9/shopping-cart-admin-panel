@@ -1,27 +1,27 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useAuthDispatch } from '../context/AuthContext';
 import { Button, Checkbox, Form, Input, Spin } from "antd";
 import { gql, useMutation } from "@apollo/client";
-import {USER_DATA} from '../graphql/Mutations'
+import {LOGIN_MUTATION} from '../graphql/Mutations'
 
 // const onFinishFailed = (errorInfo) => {
 //   console.log("Failed:", errorInfo);
 // };
 
 export default function Login(props) {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [form] = Form.useForm();
   const authDispatch = useAuthDispatch();
 
-  const [signIn, { loading, error, data }] = useMutation(USER_DATA, {
+  const [signIn, { loading, error, data }] = useMutation(LOGIN_MUTATION, {
     update(proxy, result) {
       console.log(result);
       const token = result?.data?.SignIn?.accessToken;
       console.log(token);
       localStorage.setItem("token", token);
       localStorage.setItem("validTill", result?.data?.SignIn?.validTill.toString());
-      navigate("/dashboard");
+      // navigate("/dashboard");
       authDispatch({ type: 'LOGIN' });
     },
   });

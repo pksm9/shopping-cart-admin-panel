@@ -3,33 +3,62 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink, from } from "@apollo/client";
-import {onError} from "@apollo/client/link/error"
-// import client from "./context/auth";
+import { ApolloClient, InMemoryCache, ApolloProvider,  createHttpLink} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import ProductView from "./pages/ProductView";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import ProductAdd from "./pages/ProductAdd";
 
-const errorLink = onError(({graphqlErrors, networkErrors}) => {
-  if(graphqlErrors) {
-    graphqlErrors.map(({message, location, path}) => {
-      alert(`Graphql error ${message}`);
-    });
-  }
+
+const httpLink = createHttpLink({
+  uri: "http://155.248.246.152:8080/graphql",
 });
 
-const link = from([
-  errorLink,
-  new HttpLink({uri: "http://155.248.246.152:8080/graphql"})
-]);
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem("token");
+  return {
+    headers: {
+      ...headers,
+      authorization: token,
+    },
+  };
+});
 
 const client = new ApolloClient({
-  link: link,
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard/>,
+  },
+  {
+    path: "/dasboard/add-products",
+    element: <ProductAdd />,
+  },
+  {
+    path: '/dashboard/view-products',
+    element: <ProductView />,
+  },
+]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <App />
+      <RouterProvider router={router} />
     </ApolloProvider>
   </React.StrictMode>
 );

@@ -1,18 +1,12 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthDispatch } from "../context/AuthContext";
-import { Button, Checkbox, Form, Input, Spin, Card, Typography } from "antd";
+import { Button, Form, Input, Card, Typography } from "antd";
 import { gql, useMutation } from "@apollo/client";
 import { LOGIN_MUTATION } from "../graphql/Mutations";
-
-// const onFinishFailed = (errorInfo) => {
-//   console.log("Failed:", errorInfo);
-// };
 
 export default function Login(props) {
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const authDispatch = useAuthDispatch();
 
   const [signIn, { loading, error, data }] = useMutation(LOGIN_MUTATION, {
     update(proxy, result) {
@@ -24,8 +18,7 @@ export default function Login(props) {
         "validTill",
         result?.data?.SignIn?.validTill.toString()
       );
-      navigate("/dashboard");
-      authDispatch({ type: "LOGIN" });
+      // navigate("/dashboard");
     },
   });
 
@@ -39,11 +32,11 @@ export default function Login(props) {
     }
   };
 
-  //   useEffect(() => {
-  //     if (data) {
-  //       navigate("/dashboard");
-  //     }
-  //   }, [data]);
+    useEffect(() => {
+      if (data) {
+        navigate("/dashboard");
+      }
+    }, [data]);
 
   return (
     <Card style={{width: "26%", margin: "120px auto", padding: "2.4%", boxShadow: '0px 0px 10px 2px rgba(0, 0, 0, 0.15)'}} >
@@ -56,12 +49,8 @@ export default function Login(props) {
       </Typography.Title>
       <Form
         name="login"
-        // labelCol={{ span: 8 }}
-        // wrapperCol={{ span: 16 }}
-        // style={{ maxWidth: 600 }}
         initialValues={{ remember: true }}
         onFinish={onFinish}
-        //   onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
         <Form.Item

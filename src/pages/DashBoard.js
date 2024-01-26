@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { BrowserRouter as Routes, Route } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {DesktopOutlined, PieChartOutlined,} from '@ant-design/icons';
 import { Image, Layout, Menu, theme } from 'antd';
-import isAuthenticated from '../utils/auth';
+import {Auth} from '../utils/auth';
 import ProductView from './ProductView';
 import ProductAdd from './ProductAdd';
 
@@ -26,7 +25,8 @@ const Dashboard = () => {
 
   const navigate = useNavigate();
     
-  // useEffect(() => {if (!isAuthenticated()) navigate("/login");});
+  useEffect(() => {if (!Auth.isAuthenticated()) navigate("/login");});
+
   const [collapsed, setCollapsed] = useState(false);
   const {token: { colorBgContainer, borderRadiusLG },} = theme.useToken();
   const [contentPage, setContentPage] = useState("1")

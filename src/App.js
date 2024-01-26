@@ -1,12 +1,12 @@
 import {useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import isAuthenticated from "./util/auth";
+import {Auth} from "./utils/auth";
 import "./App.css";
 
 function App() {
   const navigate = useNavigate();
   useEffect(() => {
-    if (isAuthenticated()) navigate("/dashboard");
+    if (Auth.isAuthenticated()) navigate("/dashboard");
     else navigate("/login");
   });
 

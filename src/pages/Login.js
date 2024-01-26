@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, Input, Card, Typography } from "antd";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { LOGIN_MUTATION } from "../graphql/Mutations";
+import {Auth} from '../utils/auth';
 
 export default function Login(props) {
   const navigate = useNavigate();
-  const [form] = Form.useForm();
+
+  useEffect(() => {if (Auth.isAuthenticated()) navigate("/dashboard");});
 
   const [signIn, { loading, error, data }] = useMutation(LOGIN_MUTATION, {
     update(proxy, result) {
@@ -18,7 +20,7 @@ export default function Login(props) {
         "validTill",
         result?.data?.SignIn?.validTill.toString()
       );
-      // navigate("/dashboard");
+      navigate("/dashboard");
     },
   });
 
@@ -31,12 +33,6 @@ export default function Login(props) {
       console.log("Sign in Failed", error);
     }
   };
-
-    useEffect(() => {
-      if (data) {
-        navigate("/dashboard");
-      }
-    }, [data]);
 
   return (
     <Card style={{width: "26%", margin: "120px auto", padding: "2.4%", boxShadow: '0px 0px 10px 2px rgba(0, 0, 0, 0.15)'}} >

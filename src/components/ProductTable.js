@@ -66,12 +66,13 @@ const ProductTable = () => {
   const handlePageChange = (page, pageSize) => {
     const skip = (page - 1) * 10;
 
-    fetchMore({
+    refetch({
       variables: {
         limit: 10,
         skip: skip,
       },
     });
+    console.log(skip)
   }
 
   return <Table 
@@ -80,9 +81,9 @@ const ProductTable = () => {
       size="small" 
       lineHeight='20'
       pagination={{
-        total:50,
-        pageSize: 10,
-        onChange:{handlePageChange} ,
+        // total:10,
+        pageSize: 9,
+        onChange:handlePageChange ,
       }}
     />;
 };

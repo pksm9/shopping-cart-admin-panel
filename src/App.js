@@ -6,8 +6,8 @@ import "./App.css";
 function App() {
   const navigate = useNavigate();
   useEffect(() => {
-    if (Auth.isAuthenticated()) navigate("shopping-cart-admin-panel/dashboard");
-    else navigate("shopping-cart-admin-panel/login");
+    if (Auth.isAuthenticated()) navigate("/dashboard");
+    else navigate("/login");
   });
 
   return <div></div>;

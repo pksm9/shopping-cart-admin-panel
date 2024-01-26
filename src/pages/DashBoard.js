@@ -15,8 +15,8 @@ function getItem(label, key, path,  icon, children) {
 }
 
 const items = [
-  getItem('View Products', '1', 'shopping-cart-admin-panel/dashboard/view-products', <PieChartOutlined />),
-  getItem('Add Products', '2', 'shopping-cart-admin-panel/dashboard/add-products', <DesktopOutlined />),
+  getItem('View Products', '1', '/dashboard/view-products', <PieChartOutlined />),
+  getItem('Add Products', '2', '/dashboard/add-products', <DesktopOutlined />),
   // getItem('User', 'sub1', <UserOutlined />, [getItem('Tom', '3'), getItem('Bill', '4'), getItem('Alex', '5'), ]),
   // getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
 ];
@@ -25,7 +25,7 @@ const Dashboard = () => {
 
   const navigate = useNavigate();
     
-  useEffect(() => {if (!Auth.isAuthenticated()) navigate("shopping-cart-admin-panel/login");});
+  useEffect(() => {if (!Auth.isAuthenticated()) navigate("/login");});
 
   const [collapsed, setCollapsed] = useState(false);
   const {token: { colorBgContainer, borderRadiusLG },} = theme.useToken();
@@ -39,7 +39,7 @@ const Dashboard = () => {
     <Layout style={{height: '100vh',overflow: 'hidden'}}>
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} width='260'>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Image src="https://pksm9.github.io/shopping-cart-admin-panel//logo192.png" width="80%" preview={false} style={{ margin: '20px 0', objectFit: 'scale-down' }} /></div>
+        <Image src="https://pksm9.github.io/shopping-cart-admin-panel/logo192.png" width="80%" preview={false} style={{ margin: '20px 0', objectFit: 'scale-down' }} /></div>
         <div className="demo-logo-vertical" />
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} 
           onClick={handleMenuClick}

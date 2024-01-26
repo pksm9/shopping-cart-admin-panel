@@ -8,7 +8,7 @@ import {Auth} from '../utils/auth';
 export default function Login(props) {
   const navigate = useNavigate();
 
-  useEffect(() => {if (Auth.isAuthenticated()) navigate("shopping-cart-admin-panel/dashboard");});
+  useEffect(() => {if (Auth.isAuthenticated()) navigate("/dashboard");});
 
   const [signIn, { loading, error, data }] = useMutation(LOGIN_MUTATION, {
     update(proxy, result) {

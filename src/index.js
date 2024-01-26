@@ -8,7 +8,7 @@ import { setContext } from "@apollo/client/link/context";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import ProductView from "./pages/ProductView";
 import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
+import DashBoard from "./pages/DashBoard";
 import ProductAdd from "./pages/ProductAdd";
 
 
@@ -42,7 +42,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard/>,
+    element: <DashBoard/>,
   },
   {
     path: "/dasboard/add-products",

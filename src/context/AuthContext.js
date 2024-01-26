@@ -13,7 +13,7 @@ const authReducer = (state, action) => {
       return { ...state, isAuthenticated: true };
       case 'CHECK_TOKEN':
         const isAuthenticated = !!localStorage.getItem('token') && !isTokenExpired();
-        if (isAuthenticated) {
+        if (!isAuthenticated) {
             localStorage.removeItem('token');
             localStorage.removeItem('validTill');
         }          

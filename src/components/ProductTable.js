@@ -8,8 +8,17 @@ import { LOAD_PRODUCTS } from '../graphql/Queries';
 const ProductTable = () => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
+  const [page, setPage] = useState(1);
 
-  const {data, error, loading} = useQuery(LOAD_PRODUCTS)
+  const pageSize = 10;
+
+  const {data, error, loading, refetch, fetchMore} = useQuery(LOAD_PRODUCTS, {
+    variables: {
+      limit: 10, 
+      skip: 0, 
+    },
+  });
+
   useEffect(() => {
     console.log(data)
   }, [data])
@@ -48,11 +57,33 @@ const ProductTable = () => {
   const columns = [
     {title: 'Product Code', dataIndex: 'code', key: 'code', width: '20%', ...getColumnSearchProps('code'),},
     {title: 'Product Name', dataIndex: 'name', key: 'name', width: '30%', ...getColumnSearchProps('name'),},
-    {title: 'Brand Name', dataIndex: 'brand', key: 'brand', ...getColumnSearchProps('brand'),
+    {title: 'Brand Name', dataIndex: 'brand', key: 'brand', ...getColumnSearchProps('brand'),},
+    {title: 'Price', dataIndex: 'price', key: 'price', 
       sorter: (a, b) => a.address.length - b.address.length,
       sortDirections: ['descend', 'ascend'],},
-    {title: 'Price', dataIndex: 'price', key: 'price', ...getColumnSearchProps('price'), },
   ];
-  return <Table columns={columns} dataSource={data?.GetProducts} size="small" lineHeight='20'/>;
+
+  const handlePageChange = (page, pageSize) => {
+    const skip = (page - 1) * 10;
+
+    fetchMore({
+      variables: {
+        limit: 10,
+        skip: skip,
+      },
+    });
+  }
+
+  return <Table 
+      columns={columns} 
+      dataSource={data?.GetProducts} 
+      size="small" 
+      lineHeight='20'
+      pagination={{
+        total:50,
+        pageSize: 10,
+        onChange:{handlePageChange} ,
+      }}
+    />;
 };
 export default ProductTable;

@@ -33,23 +33,23 @@ const client = new ApolloClient({
 
 const router = createBrowserRouter([
   {
-    path: "/shopping-cart-admin-panel/",
+    path: "/",
     element: <App />,
   },
   {
-    path: "/shopping-cart-admin-panel/login",
+    path: "/login",
     element: <Login />,
   },
   {
-    path: "/shopping-cart-admin-panel/dashboard",
+    path: "/dashboard",
     element: <Dashboard/>,
   },
   {
-    path: "/shopping-cart-admin-panel/dasboard/add-products",
+    path: "/dasboard/add-products",
     element: <ProductAdd />,
   },
   {
-    path: '/shopping-cart-admin-panel/dashboard/view-products',
+    path: '/dashboard/view-products',
     element: <ProductView />,
   },
 ]);

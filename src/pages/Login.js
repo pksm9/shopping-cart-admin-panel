@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Form, Input, Card, Typography } from "antd";
 import { useMutation } from "@apollo/client";
 import { LOGIN_MUTATION } from "../graphql/Mutations";
-import {Auth} from '../utils/auth';
+import { Auth } from '../utils/auth';
 
 export default function Login(props) {
   const navigate = useNavigate();
@@ -33,6 +33,8 @@ export default function Login(props) {
       console.log("Sign in Failed", error);
     }
   };
+
+  useEffect(() => { if (data) navigate("/dashboard"); });
 
   return (
     <Card style={{width: "26%", margin: "120px auto", padding: "2.4%", boxShadow: '0px 0px 10px 2px rgba(0, 0, 0, 0.15)'}} >

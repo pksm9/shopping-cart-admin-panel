@@ -8,11 +8,9 @@ import { LOAD_PRODUCTS } from '../graphql/Queries';
 const ProductTable = () => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
 
-  const pageSize = 10;
-
-  const {data, error, loading, refetch, fetchMore} = useQuery(LOAD_PRODUCTS, {
+  const {data, loading, refetch} = useQuery(LOAD_PRODUCTS, {
     variables: {
       limit: 10, 
       skip: 0, 
@@ -80,6 +78,7 @@ const ProductTable = () => {
       dataSource={data?.GetProducts} 
       size="small" 
       lineHeight='20'
+      loading={loading}
       pagination={{
         // total:10,
         pageSize: 9,

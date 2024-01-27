@@ -13,7 +13,7 @@ import ProductAdd from "./pages/ProductAdd";
 
 
 const httpLink = createHttpLink({
-  uri: "http://155.248.246.152:8080/graphql",
+  uri: "https://multikart-server.fly.dev/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {

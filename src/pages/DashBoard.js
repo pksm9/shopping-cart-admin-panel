@@ -39,7 +39,7 @@ const Dashboard = () => {
     <Layout style={{height: '100vh',overflow: 'hidden'}}>
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} width='260'>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <Image src="shopping-cart-admin-panel/logo192.png" width="80%" preview={false} style={{ margin: '20px 0', objectFit: 'scale-down' }} /></div>
+        <Image src="/shopping-cart-admin-panel/logo192.png" width="80%" preview={false} style={{ margin: '20px 0', objectFit: 'scale-down' }} /></div>
         <div className="demo-logo-vertical" />
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} 
           onClick={handleMenuClick}

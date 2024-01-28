@@ -8,7 +8,7 @@ import { Auth } from '../utils/auth';
 export default function Login(props) {
   const navigate = useNavigate();
 
-  useEffect(() => {if (Auth.isAuthenticated()) navigate("/dashboard");});
+  useEffect(() => {if (Auth.isAuthenticated()) {navigate("/dashboard");}});
 
   const [signIn, { loading, error, data }] = useMutation(LOGIN_MUTATION, {
     update(proxy, result) {
@@ -70,14 +70,14 @@ export default function Login(props) {
         </Form.Item>
 
         <Form.Item >
-          <Button size="large" type="primary" htmlType="submit" loading={loading} style={{ width: "100%" }}>
+          <Button size="large" type="primary" htmlType="submit" loading={loading} style={{ width: "100%" }} disabled={loading}>
             LOGIN
           </Button>
         </Form.Item>
 
         {error && (
           <Typography.Text type="danger" style={{ textAlign: "center", display: "block", marginTop: "10px" }}>
-            {error.message}
+            {error.message.includes("Invalid credentials") ? "Invalid email or password" : error.message}
           </Typography.Text>
         )}
       </Form>

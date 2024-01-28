@@ -15,8 +15,8 @@ function getItem(label, key, path,  icon, children) {
 }
 
 const items = [
-  getItem('View Products', '1', '/dashboard/view-products', <PieChartOutlined />),
-  getItem('Add Products', '2', '/dashboard/add-products', <DesktopOutlined />),
+  getItem('View Products', '1', '/dashboard/view-products', <DesktopOutlined />),
+  getItem('Add Products', '2', '/dashboard/add-products', <PieChartOutlined />),
   // getItem('User', 'sub1', <UserOutlined />, [getItem('Tom', '3'), getItem('Bill', '4'), getItem('Alex', '5'), ]),
   // getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
 ];
@@ -55,8 +55,16 @@ const Dashboard = () => {
         <Content style={{ margin: '24px 16px 0', }} >
           <div style={{padding: 24, height: '100vh', background: colorBgContainer, borderRadius: borderRadiusLG,}}>
           
-          {contentPage === '1' && <ProductView />}
-          {contentPage === '2' && <ProductAdd />}
+          {(() => {
+          try {
+            if (contentPage === '1') return <ProductView />;
+            if (contentPage === '2') return <ProductAdd />;
+            return null;
+          } catch (error) {
+            console.error('Error rendering content:', error);
+            return <div>Error rendering content. Please try again.</div>;
+          }
+        })()}
            
           </div>
         </Content>

@@ -10,7 +10,7 @@ const ProductTable = () => {
   const [searchedColumn, setSearchedColumn] = useState('');
   // const [page, setPage] = useState(1);
 
-  const {data, loading, refetch} = useQuery(LOAD_PRODUCTS, {
+  const {data, error, loading, refetch} = useQuery(LOAD_PRODUCTS, {
     variables: {
       limit: 10, 
       skip: 0, 
@@ -71,6 +71,11 @@ const ProductTable = () => {
       },
     });
     console.log(skip)
+  }
+
+  if (error) {
+    console.error('Error fetching product data:', error);
+    return <div>Error fetching product data. Please try again.</div>;
   }
 
   return <Table 

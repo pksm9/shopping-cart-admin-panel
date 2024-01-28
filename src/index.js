@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { ApolloClient, InMemoryCache, ApolloProvider,  createHttpLink} from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { toast } from "react-toastify";
 import ProductView from "./pages/ProductView";
 import Login from "./pages/Login";
 import Dashboard from "./pages/DashBoard";
@@ -29,6 +30,10 @@ const authLink = setContext((_, { headers }) => {
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
+  onError: (error) => {
+    console.error("Apollo Client Error:", error);
+    toast.error("An error occurred. Please try again.");
+  },
 });
 
 const router = createBrowserRouter([

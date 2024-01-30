@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
-import { Button, Input, Space, Table } from 'antd';
+import { Button, Input, Space, Table, Form, Cascader } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { useQuery } from '@apollo/client';
 import { LOAD_PRODUCTS } from '../graphql/Queries';
@@ -57,8 +57,10 @@ const ProductTable = () => {
     {title: 'Product Name', dataIndex: 'name', key: 'name', width: '30%', ...getColumnSearchProps('name'),},
     {title: 'Brand Name', dataIndex: 'brand', key: 'brand', ...getColumnSearchProps('brand'),},
     {title: 'Price', dataIndex: 'price', key: 'price', 
-      sorter: (a, b) => a.address.length - b.address.length,
-      sortDirections: ['descend', 'ascend'],},
+      sorter: (a, b) => a.price - b.price,
+      sortDirections: ['descend', 'ascend'],
+      render: (text) => `Rs. ${text}`,
+    },
   ];
 
   const handlePageChange = (page, pageSize) => {
@@ -78,17 +80,39 @@ const ProductTable = () => {
     return <div>Error fetching product data. Please try again.</div>;
   }
 
-  return <Table 
-      columns={columns} 
-      dataSource={data?.GetProducts} 
-      size="small" 
-      lineHeight='20'
-      loading={loading}
-      pagination={{
-        // total:10,
-        pageSize: 9,
-        onChange:handlePageChange ,
-      }}
-    />;
+  return(
+          <div>
+            <Form>
+              <Form.Item label="Cascader">
+                <Cascader
+                  options={[
+                    {
+                      value: 'zhejiang',
+                      label: 'Zhejiang',
+                      children: [
+                        {
+                          value: 'hangzhou',
+                          label: 'Hangzhou',
+                        },
+                      ],
+                    },
+                  ]}
+                />
+              </Form.Item>
+            </Form>
+            <Table 
+            columns={columns} 
+            dataSource={data?.GetProducts} 
+            size="small" 
+            lineHeight='20'
+            loading={loading}
+            pagination={{
+              // total:10,
+              pageSize: 9,
+              onChange:handlePageChange ,
+            }}
+          />
+          </div>)
+    
 };
 export default ProductTable;

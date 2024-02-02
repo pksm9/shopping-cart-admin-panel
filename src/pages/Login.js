@@ -34,6 +34,14 @@ export default function Login(props) {
     }
   };
 
+  const errorMessage = () => {
+    if (!navigator.onLine) {
+      return "No internet connection. Please check your network.";
+    }
+
+    return error.message.includes("Invalid credentials") ? "Invalid email or password" : error.message;
+  }
+
   useEffect(() => { if (data) navigate("/dashboard"); });
 
   return (
@@ -77,7 +85,7 @@ export default function Login(props) {
 
         {error && (
           <Typography.Text type="danger" style={{ textAlign: "center", display: "block", marginTop: "10px" }}>
-            {error.message.includes("Invalid credentials") ? "Invalid email or password" : error.message}
+            {errorMessage()}
           </Typography.Text>
         )}
       </Form>
